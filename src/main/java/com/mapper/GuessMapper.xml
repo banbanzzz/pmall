@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.GuessMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Guess">
+        <id property="guess_id" column="guess_id" javaType="java.lang.Integer"/>
+        <result property="guess_user.user_id" column="guess_user" javaType="java.lang.Integer"/>
+        <result property="guess_goods.goods_id" column="guess_goods" javaType="java.lang.Integer"/>
+        <result property="guess_date" column="guess_date" javaType="java.util.Date"/>
+    </resultMap>
+    <resultMap id="BaseResultMapJoinObj" extends="BaseResultMap" type="com.entity.Guess">
+        <association property="guess_user" column="guess_user" javaType="com.entity.Users" select="com.mapper.UserMapper.findUserById"></association>
+        <association property="guess_goods" column="guess_goods" javaType="com.entity.Goods" select="com.mapper.GoodsMapper.findGoodsById"></association>
+    </resultMap>
+
+    <insert id="addGuess" parameterType="com.entity.Guess">
+        insert into guess(guess_goods,guess_user,guess_date)
+        values(#{guess_goods.goods_id},#{guess_user.user_id},#{guess_date})
+    </insert>
+
+    <delete id="deleteGuess" parameterType="java.lang.Integer">
+        delete from guess where guess_id = #{id}
+    </delete>
+
+    <select id="findGuessByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from guess where guess_user = #{user_id}
+    </select>
+</mapper>

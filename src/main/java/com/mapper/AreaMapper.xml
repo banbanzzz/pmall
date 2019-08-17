@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.AreaMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Areas">
+        <id property="area_id" column="area_id" javaType="java.lang.String"/>
+        <result property="area_name" column="area_name" javaType="java.lang.String"/>
+        <result property="city_id" column="city_id" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="findAreaById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from areas where area_id = #{id}
+    </select>
+
+    <select id="findAreaByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from areas where area_name = #{name} and city_id = #{city_id}
+    </select>
+
+    <select id="findAreasByCityId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from areas where city_id = #{city_id}
+    </select>
+</mapper>
