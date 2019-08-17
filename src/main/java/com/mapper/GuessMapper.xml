@@ -24,4 +24,12 @@
     <select id="findGuessByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select * from guess where guess_user = #{user_id}
     </select>
+
+    <delete id="removeGuess" parameterType="java.lang.Integer">
+        delete from guess where guess_user = #{user_id} and guess_goods = #{goods_id}
+    </delete>
+
+    <select id="findGuessByUser" parameterType="java.lang.Integer">
+        select * from guess where guess_user = #{user_id} and guess_goods = #{guess_goods}
+    </select>
 </mapper>

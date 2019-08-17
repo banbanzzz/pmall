@@ -36,4 +36,10 @@ public class GoodsController {
         model.addAttribute("evaList",evaList);
         return "user/product_detail";
     }
+
+    @RequestMapping("findHotGoods")
+    @ResponseBody
+    public List<Goods> findHotGoods(){
+        return goodsService.findHotGoods(4);
+    }
 }

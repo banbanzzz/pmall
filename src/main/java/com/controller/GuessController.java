@@ -8,6 +8,7 @@ import com.service.IGuessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,10 +39,23 @@ public class GuessController {
         }
     }
 
+    @RequestMapping("deleteGuess")
+    @ResponseBody
+    public String deleteGuess(Integer guess_id){
+        Integer rs = guessService.deleteGuess(guess_id);
+        if(rs > 0){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
     @RequestMapping("removeGuess")
     @ResponseBody
-    public String removeGuess(Integer guess_id){
-        Integer rs = guessService.deleteGuess(guess_id);
+    public String removeGuess(Integer goods_id,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Users user = (Users) session.getAttribute("user");
+        Integer rs = guessService.removeGuess(user.getUser_id(),goods_id);
         if(rs > 0){
             return "success";
         }else {
@@ -56,4 +70,23 @@ public class GuessController {
         Users user = (Users)session.getAttribute("user");
         return guessService.findGuessByUserId(user.getUser_id());
     }
+
+    @RequestMapping("isGuess")
+    @ResponseBody
+    public String isGuess(Integer goods_id,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Users user = (Users)session.getAttribute("user");
+        if(user != null){
+            Guess guess = guessService.findGuessByUser(user.getUser_id(),goods_id);
+            if(guess != null){
+                return "true";
+            }else {
+                return "false";
+            }
+        }else {
+            return "false";
+        }
+    }
+
+
 }

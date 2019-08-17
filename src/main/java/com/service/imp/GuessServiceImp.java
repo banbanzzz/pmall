@@ -27,6 +27,18 @@ public class GuessServiceImp implements IGuessService {
         return guessMapper.deleteGuess(id);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+    @Override
+    public Integer removeGuess(Integer user_id, Integer goods_id) {
+        return guessMapper.removeGuess(user_id, goods_id);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    @Override
+    public Guess findGuessByUser(Integer user_id, Integer goods_id) {
+        return guessMapper.findGuessByUser(user_id, goods_id);
+    }
+
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     @Override
     public List<Guess> findGuessByUserId(Integer user_id) {
