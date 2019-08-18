@@ -92,9 +92,9 @@ public class CartController {
 
     @RequestMapping("createOrder")
     @ResponseBody
-    public String createOrder(Integer [] cartsList, Model model,HttpServletRequest request){
+    public String createOrder(Integer [] goodslist, Model model,HttpServletRequest request){
         List<Cart> cartList = new ArrayList<Cart>();
-        for(Integer id : cartsList){
+        for(Integer id : goodslist){
             Cart cart = cartService.findCartById(id);
             cartList.add(cart);
         }
