@@ -37,7 +37,6 @@ public class OrderController {
      * @return
      */
     @RequestMapping("takeOrder")
-    @ResponseBody
     public String takeOrder(Integer addr, Integer [] goodslist,double singleTotal, Model model, HttpServletRequest request){
         Address address = addressService.findAddressById(addr);
         String order_address = address.getAddr_province() + address.getAddr_city() + address.getAddr_area() + address.getAddr_detail();
