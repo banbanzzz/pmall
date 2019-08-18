@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-1">
-                <form action="cart/preOrder" method="post" id="cartForm">
+                <form action="cart/createOrder" method="post" id="cartForm">
                     <table class="table table-hover center" id="cartTable">
 
                     </table>
@@ -210,7 +210,7 @@
             if(num < 1){
                 layer.msg('请选择要购买的商品!',{icon:5,anim:6,time:2000});
             }else {
-                layer.msg('还没写呢!',{icon:5,anim:6,time:2000});
+                $("#cartForm").submit();
             }
         }
     </script>
