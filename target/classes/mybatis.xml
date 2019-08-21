@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<settings>
+		<!--  打印查询语句 -->
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+	</settings>
 	<!-- 定义别名 -->
 	<typeAliases>
-		<package name="com.mapper"/>
+		<package name="com.entity" />
 	</typeAliases>
-	
 	<!-- 配置 mybatis的分页插件 -->
 	<plugins>
 		<!-- com.github.pagehelper 为 PageHelper类所在包名 -->

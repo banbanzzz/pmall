@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Users">
+        <id property="user_id" column="user_id" javaType="java.lang.Integer"/>
+        <result property="user_name" column="user_name" javaType="java.lang.String"/>
+        <result property="user_pass" column="user_pass" javaType="java.lang.String"/>
+        <result property="user_phone" column="user_phone" javaType="java.lang.String"/>
+        <result property="user_email" column="user_email" javaType="java.lang.String"/>
+        <result property="user_state" column="user_state" javaType="java.lang.Integer"/>
+        <result property="user_img" column="user_img" javaType="java.lang.String"/>
+    </resultMap>
+
+
+    <select id="findUserById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from users where user_id = #{user_id}
+    </select>
+
+    <insert id="addUser" parameterType="com.entity.Users">
+        insert into users(user_name,user_pass,user_phone,user_email)
+        values(#{user_name},#{user_pass},#{user_phone},#{user_email})
+    </insert>
+
+    <update id="deleteUser" parameterType="java.lang.Integer">
+        update users set user_state = -1 where user_id = #{user_id}
+    </update>
+
+    <update id="changeUserState" parameterType="java.lang.Integer">
+        update users  set user_state = #{user_state} where user_id = #{user_id}
+    </update>
+
+    <update id="updateUser" parameterType="com.entity.Users">
+        update users
+        <set>
+            <if test="user_name!=null">
+                user_name = #{user_name},
+            </if>
+            <if test="user_pass!=null">
+                user_pass = #{user_pass},
+            </if>
+            <if test="user_phone!=null">
+                user_phone = #{user_phone},
+            </if>
+            <if test="user_email!=null">
+                user_email = #{user_email},
+            </if>
+            <if test="user_img!=null">
+                user_img = #{user_img}
+            </if>
+        </set>
+        where user_id = #{user_id}
+    </update>
+
+    <select id="findAllUser" resultMap="BaseResultMap">
+        select * from users where user_state &gt;= 0
+    </select>
+
+    <select id="findUserByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from users where user_state &gt;= 0 and user_name = #{user_name}
+    </select>
+
+    <select id="findUserLikeName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from users where user_state &gt;= 0 and user_name like '%${value}%'
+    </select>
+</mapper>
+
+
+
+
+
+
+

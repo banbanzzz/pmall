@@ -11,7 +11,7 @@
     <!-- 注册spring配置文件的位置 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring.xml</param-value>
+        <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
 
     <!-- 注册serverContext监听器，创建Spring容器 -->
@@ -51,7 +51,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring.xml</param-value>
+            <param-value>classpath:spring-mvc.xml</param-value>
         </init-param>
         <!--在tomcat 启动时直接创建当前servlet 对象，放置一个大于0 的整数-->
         <load-on-startup>1</load-on-startup>

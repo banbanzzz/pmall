@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.CartMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Cart">
+        <id property="cart_id" column="cart_id" javaType="java.lang.Integer"/>
+        <result property="cart_user.user_id" column="cart_user" javaType="java.lang.Integer"/>
+        <result property="cart_goods.goods_id" column="cart_goods" javaType="java.lang.Integer"/>
+        <result property="cart_num" column="cart_num" javaType="java.lang.Integer"/>
+        <result property="cart_price" column="cart_price" javaType="double"/>
+    </resultMap>
+    <resultMap id="BaseResultMapJoinObj" type="com.entity.Cart">
+        <association property="cart_user" column="cart_user" javaType="com.entity.Users" select="com.mapper.UserMapper.findUserById"></association>
+        <association property="cart_goods" column="cart_goods" javaType="com.entity.Goods" select="com.mapper.GoodsMapper.findGoodsById"></association>
+    </resultMap>
+
+    <insert id="addCart" parameterType="com.entity.Cart">
+        insert into cart(cart_goods,cart_user,cart_num,cart_price)
+        values(#{cart_goods.goods_id},#{cart_user.user_id},#{cart_num},#{cart_price})
+    </insert>
+
+    <delete id="deleteCart" parameterType="java.lang.Integer">
+        delete from cart where cart_id = #{id}
+    </delete>
+
+    <update id="updateCart" parameterType="com.entity.Cart">
+        update cart
+        <set>
+            <if test="cart_goods!=null and cart_goods.goods_id!=null">
+                cart_goods = #{cart_goods.goods_id},
+            </if>
+            <if test="cart_user!=null and cart_user.user_id!=null">
+                cart_user = #{cart_user.user_id},
+            </if>
+            <if test="cart_num!=null">
+                cart_num = #{cart_num},
+            </if>
+            <if test="cart_price!=null">
+                cart_price = #{cart_price}
+            </if>
+        </set>
+        where cart_id = #{cart_id}
+    </update>
+
+    <select id="findCartById" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinObj">
+        select * from cart where cart_id = #{id}
+    </select>
+
+    <select id="findCartListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinObj">
+        select * from cart where cart_user = #{user_id}
+    </select>
+
+    <select id="findCartByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinObj">
+		select * from cart where cart_user = #{user_id} and cart_goods = #{goods_id}
+	</select>
+</mapper>

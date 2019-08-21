@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.MemoryMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Memory">
+        <id property="memory_id" column="memory_id" javaType="java.lang.Integer"/>
+        <result property="memory_name" column="memory_name" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="findMemoryById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from memory where memory_id = #{id}
+    </select>
+
+    <select id="findAllMemory" resultMap="BaseResultMap">
+        select * from memory
+    </select>
+</mapper>

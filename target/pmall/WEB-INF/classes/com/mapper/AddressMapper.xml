@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.AddressMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Address">
+        <id property="addr_id" column="addr_id" javaType="java.lang.Integer"/>
+        <result property="addr_province" column="addr_province" javaType="java.lang.String"/>
+        <result property="addr_city" column="addr_city" javaType="java.lang.String"/>
+        <result property="addr_area" column="addr_area" javaType="java.lang.String"/>
+        <result property="addr_detail" column="addr_detail" javaType="java.lang.String"/>
+        <result property="addr_nickname" column="addr_nickname" javaType="java.lang.String"/>
+        <result property="addr_phone" column="addr_phone" javaType="java.lang.String"/>
+        <result property="addr_user" column="addr_user" javaType="java.lang.Integer"/>
+        <result property="addr_state" column="addr_state" javaType="java.lang.Integer"/>
+        <result property="addr_zipcpde" column="addr_zipcode" javaType="java.lang.String"/>
+    </resultMap>
+
+    <insert id="addAddress" parameterType="com.entity.Address">
+        insert into address(addr_province,addr_city,addr_area,addr_detail,addr_nickname,addr_phone,addr_user,addr_zipcode)
+        values(#{addr_province},#{addr_city},#{addr_area},#{addr_detail},#{addr_nickname},#{addr_phone},#{addr_user},#{addr_zipcode})
+    </insert>
+
+    <update id="deleteAddress" parameterType="java.lang.Integer">
+        update address set addr_state = -1 where addr_id = #{addr_id}
+    </update>
+
+    <update id="updateAddress" parameterType="com.entity.Address">
+        update address
+        <set>
+            <if test="addr_province!=null">
+                addr_province = #{addr_province},
+            </if>
+            <if test="addr_city!=null">
+                addr_city = #{addr_city},
+            </if>
+            <if test="addr_area!=null">
+                addr_area = #{addr_area},
+            </if>
+            <if test="addr_detail!=null">
+                addr_detail = #{addr_detail},
+            </if>
+            <if test="addr_nickname!=null">
+                addr_nickname = #{addr_nickname},
+            </if>
+            <if test="addr_phone!=null">
+                addr_phone = #{addr_phone},
+            </if>
+            <if test="addr_user!=null">
+                addr_user = #{addr_user}
+            </if>
+        </set>
+        where addr_id = #{addr_id}
+    </update>
+
+    <update id="changeAddrState" parameterType="java.lang.Integer">
+        update address set addr_state = #{state} where addr_id = #{id}
+    </update>
+
+    <select id="findAddrById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from address where addr_id = #{id}
+    </select>
+
+    <select id="findAddrByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from address where addr_user = #{user_id} and addr_state = 1
+    </select>
+</mapper>

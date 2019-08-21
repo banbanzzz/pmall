@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.GoodsMapper">
+    <resultMap id="BaseGoods" type="com.entity.Goods">
+        <id property="goods_id" column="goods_id" javaType="java.lang.Integer"/>
+        <result property="goods_name" column="goods_name" javaType="java.lang.String"/>
+        <result property="goods_price" column="goods_price" javaType="double"/>
+        <result property="goods_num" column="goods_num" javaType="java.lang.Integer"/>
+        <result property="goods_type.type_id" column="goods_type" javaType="java.lang.Integer"/>
+        <result property="goods_memory.memory_id" column="goods_memory" javaType="java.lang.Integer"/>
+        <result property="goods_color" column="goods_color" javaType="java.lang.String"/>
+        <result property="goods_img" column="goods_img" javaType="java.lang.String"/>
+        <result property="goods_state" column="goods_state" javaType="java.lang.Integer"/>
+        <result property="goods_desc" column="goods_desc" javaType="java.lang.String"/>
+        <result property="goods_volume" column="goods_volume" javaType="java.lang.Integer"/>
+    </resultMap>
+    <resultMap id="BaseGoodsJoinObject" extends="BaseGoods" type="com.entity.Goods">
+        <association property="goods_type" column="goods_type" javaType="com.entity.GoodsType" select="com.mapper.GoodsTypeMapper.findTypeById"></association>
+        <association property="goods_memory" column="goods_memory" javaType="com.entity.Memory" select="com.mapper.MemoryMapper.findMemoryById"></association>
+    </resultMap>
+
+    <select id="findAllBaseData" resultMap="BaseGoods">
+        select * from goods
+    </select>
+
+    <select id="findAllGoods" resultMap="BaseGoodsJoinObject">
+        select * from goods where goods_state &gt;= 0
+    </select>
+
+    <select id="findHotGoods" parameterType="java.lang.Integer" resultMap="BaseGoodsJoinObject">
+        select * from goods where goods_state = 2 limit #{num}
+    </select>
+
+    <insert id="addGoods" parameterType="com.entity.Goods">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="goods_id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into goods(goods_name,goods_price,goods_num,goods_type,goods_memory,goods_color,goods_img,goods_desc)
+        values(#{goods_name},#{goods_price},#{goods_type.type_id},#{goods_memory.memory_id},#{goods_color},#{goods_img},#{goods_desc})
+    </insert>
+
+    <update id="deleteGoods" parameterType="java.lang.Integer">
+        update goods set goods_state = -1 where goods_id = #{goods_id}
+    </update>
+
+    <update id="updateGoods" parameterType="com.entity.Goods">
+        update goods
+        <set>
+            <if test="goods_name!=null and goods_num!=''">
+                goods_name = #{goods_name},
+            </if>
+            <if test="goods_price!=null">
+                goods_price = #{goods_price},
+            </if>
+            <if test="goods_num!=null">
+                goods_num = #{goods_num},
+            </if>
+            <if test="goods_type!=null and goods_type.type_id!=null">
+                goods_type = #{goods_type.type_id},
+            </if>
+            <if test="goods_memory!=null and goods_memory.memory_id!=null">
+                goods_memory = #{goods_memory.memory_id},
+            </if>
+            <if test="goods_color!=null">
+                goods_color = #{goods_color},
+            </if>
+            <if test="goods_img!=null">
+                goods_img = #{goods_img},
+            </if>
+            <if test="goods_desc!=null">
+                goods_desc = #{goods_desc}
+            </if>
+        </set>
+        where goods_id = #{goods_id}
+    </update>
+
+    <select id="findGoodsById" parameterType="java.lang.Integer" resultMap="BaseGoodsJoinObject">
+        select * from goods where goods_id = #{goods_id}
+    </select>
+    
+    <select id="findGoodsByType" parameterType="java.lang.Integer" resultMap="BaseGoodsJoinObject">
+        select * from goods where goods_type = #{type_id}
+    </select>
+
+    <select id="findGoodsLikeName" parameterType="java.lang.String" resultMap="BaseGoodsJoinObject">
+        select * from goods where goods_name like '%${value}%' and goods_state &gt;= 0
+    </select>
+
+    <select id="findGoodsByVolume" parameterType="java.lang.Integer" resultMap="BaseGoodsJoinObject">
+		select * from goods where goods_state &gt;= 0 order by goods_volume desc limit #{limit}
+	</select>
+</mapper>

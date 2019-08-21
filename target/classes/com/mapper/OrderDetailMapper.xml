@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.OrderDetailMapper">
+    <resultMap id="BaseResultMap" type="com.entity.OrderDetail">
+        <id property="detail_id" column="detail_id" javaType="java.lang.Integer"/>
+        <result property="detail_goods.goods_id" column="detail_goods" javaType="java.lang.Integer"/>
+        <result property="detail_order.order_id" column="detail_order" javaType="java.lang.String"/>
+        <result property="detail_price" column="detail_price" javaType="double"/>
+        <result property="detail_num" column="detail_num" javaType="java.lang.Integer"/>
+    </resultMap>
+    <resultMap id="BaseResultMapJoinObj" extends="BaseResultMap" type="com.entity.OrderDetail">
+        <association property="detail_order" column="detail_order" javaType="com.entity.Order" select="com.mapper.OrderMapper.findOrderById"></association>
+        <association property="detail_goods" column="detail_goods" javaType="com.entity.Goods" select="com.mapper.GoodsMapper.findGoodsById"></association>
+    </resultMap>
+
+    <insert id="addOrderDetail" parameterType="com.entity.OrderDetail">
+        insert into order_detail(detail_order,detail_goods,detail_price,detail_num)
+        values(#{detail_order.order_id},#{detail_goods.goods_id},#{detail_price},#{detail_num})
+    </insert>
+
+    <select id="findOrderDetailById" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinObj">
+        select * from order_detail where detail_id = #{id}
+    </select>
+
+    <update id="updateOrderDetail" parameterType="com.entity.OrderDetail">
+        update order_detail
+        <set>
+            <if test="detail_goods!=null and detail_goods.goods_id!=null">
+                detail_goods = #{detail_goods.goods_id},
+            </if>
+            <if test="detail_order!=null and detail_order.order_id!=null">
+                detail_order = #{detail_order.order_id},
+            </if>
+            <if test="detail_price!=null">
+                detail_price = #{detail_price},
+            </if>
+            <if test="detail_num!=null">
+                detail_num = #{detail_num}
+            </if>
+        </set>
+        where detail_id = #{detail_id}
+    </update>
+
+    <select id="findOrderDetailByOrderId" parameterType="java.lang.String" resultMap="BaseResultMapJoinObj">
+        select * from order_detail where order_id = #{order_id}
+    </select>
+</mapper>

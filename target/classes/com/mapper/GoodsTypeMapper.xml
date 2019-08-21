@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.GoodsTypeMapper">
+    <resultMap id="BaseResultMap" type="com.entity.GoodsType">
+        <id property="type_id" column="type_id" javaType="java.lang.Integer"/>
+        <result property="type_name" column="type_name" javaType="java.lang.String"/>
+        <result property="type_state" column="type_state" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <select id="findTypeById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from goods_type where type_id = #{type_id}
+    </select>
+
+    <insert id="addGoodsType" parameterType="com.entity.GoodsType">
+        insert into goods_type(type_name) values(#{type_name})
+    </insert>
+
+    <update id="deleteGoodsType" parameterType="java.lang.Integer">
+        update goods_type set type_state = -1 where type_id = #{type_id}
+    </update>
+
+    <update id="updateGoodsType" parameterType="com.entity.GoodsType">
+        update goods_type
+        <set>
+            <if test="type_name!=null">
+                type_name = #{type_name}
+            </if>
+        </set>
+        where type_id = #{type_id}
+    </update>
+
+    <update id="ChangeTypeState" parameterType="java.lang.Integer">
+        update goods_type set type_state = #{state} where type_id = #{id}
+    </update>
+
+    <select id="findAllType" resultMap="BaseResultMap">
+        select * from goods_type where type_state = 1
+    </select>
+
+    <select id="findAllTypeByLikeName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from goods_type where &gt;= 0 and type_name like '%${value}%'
+    </select>
+
+    <select id="findAllBySplitPage" resultMap="BaseResultMap">
+        select * from goods_type where type_state &gt;= 0
+    </select>
+</mapper>

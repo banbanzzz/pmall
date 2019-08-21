@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.CityMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Cities">
+        <id property="city_id" column="city_id" javaType="java.lang.String"/>
+        <result property="city_name" column="city_name" javaType="java.lang.String"/>
+        <result property="province_id" column="province_id" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="findCityById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from cities where city_id = #{id}
+    </select>
+
+    <select id="findCityByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from cities where city_name = #{name} and province_id = #{province_id}
+    </select>
+
+    <select id="findCitiesByProvinceId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from cities where province_id = #{province_id}
+    </select>
+</mapper>

@@ -6,19 +6,19 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
+<html>
 <head>
-<base href="<%=basePath%>">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>乐享手机商城</title>
-<link href="resources/css/style.css" rel="stylesheet">
-<link href="resources/css/layui.css" rel="stylesheet">
-<link href="resources/css/admin.css" rel="stylesheet">
-<script src="resources/js/jquery.min.js" type="text/javascript"></script>
-<script src="resources/js/layui.js" type="text/javascript"></script>
-
+	<base href="<%=basePath%>">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>404</title>
+	<link href="resources/css/style.css" rel="stylesheet">
+	<link href="resources/css/layui.css" rel="stylesheet">
+	<link href="resources/css/admin.css" rel="stylesheet">
+	<script src="resources/js/jquery.min.js" type="text/javascript"></script>
+	<script src="resources/js/layui.js" type="text/javascript"></script>
 </head>
 <body>
 	<div class="layui-body" style="position:absolute;left:0px;" id="LAY_app_body">
