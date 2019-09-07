@@ -36,6 +36,7 @@
             <!-- 头部导航 （水平）-->
             <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item"><a href="view/main" target="myframe">主页</a></li>
+                <li class="layui-nav-item"><a href="view/index" target="_blank">商城</a> </li>
             </ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
