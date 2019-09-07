@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.OrderSearchVOMapper">
+    <resultMap id="BaseResultMap" type="com.util.OrderSearchVO">
+        <id property="orderId" column="orderId" javaType="java.lang.String"/>
+        <result property="startDate" column="startDate" javaType="java.lang.String"/>
+        <result property="endDate" column="endDate" javaType="java.lang.String"/>
+        <result property="orderState" column="orderState" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <select id="findByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from ordersearchvo where orderId = #{orderId}
+    </select>
+
+    <insert id="addOrderSerchVo" parameterType="com.util.OrderSearchVO">
+        insert into ordersearchvo(orderId,startDate)
+        values(#{orderId},#{startDate})
+    </insert>
+
+    <update id="updateOrderSearchVo">
+        update ordersearchvo 
+        set orderState = #{orderState} where orderId = #{orderId}
+    </update>
+    
+    <update id="updateEndDate">
+        update ordersearchvo
+        set endDate = #{endDate},orderState = #{orderState}
+        where orderId = #{orderId}
+    </update>
+
+</mapper>

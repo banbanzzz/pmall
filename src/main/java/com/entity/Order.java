@@ -15,10 +15,10 @@ import java.util.List;
 public class Order implements Serializable {
     private String order_id;
     private Users order_user;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date order_date;
     private double order_price;
-    private Integer order_state;
+    private Integer order_state; //0待付款 1：退款 2：待发货 3：待收货 4：待评价 5：完成 -1：删除 6：退款成功
     private String order_username;
     private String order_phone;
     private String order_address;

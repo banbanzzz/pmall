@@ -47,14 +47,14 @@
                             <label class="layadmin-user-login-icon layui-icon layui-icon-username"
                                    for="LAY-user-login-username">
                             </label>
-                            <input type="text" name="user_name" id="userName" lay-verify="required" placeholder="用户名"
+                            <input type="text" name="user_name" id="user_name" lay-verify="required" placeholder="用户名"
                                    class="layui-input layui-form-danger">
                         </div>
                         <div class="layui-form-item">
                             <label class="layadmin-user-login-icon layui-icon layui-icon-password"
                                    for="LAY-user-login-password">
                             </label>
-                            <input type="password" name="user_pass" id="userPass" lay-verify="required" placeholder="密码"
+                            <input type="password" name="user_pass" id="user_pass" lay-verify="required" placeholder="密码"
                                    class="layui-input">
                         </div>
                         <div class="layui-form-item" style="height:50px;">
@@ -78,8 +78,7 @@
                                 href="javascript:;"><i
                                 class="layui-icon layui-icon-login-wechat"></i></a> <a
                                 href="javascript:;"><i
-                                class="layui-icon layui-icon-login-weibo"></i></a> <a
-                                lay-href="/view/register"
+                                class="layui-icon layui-icon-login-weibo"></i></a> <a href="/view/register"
                                 class="layadmin-user-jump-change layadmin-link">注册帐号</a>
                         </div>
                     </div>
@@ -97,11 +96,11 @@
                 $.ajax({
                     type: "post",
                     url: "user/login",
-                    data: $('#loginSubmit').serialize(),
-                    dataType: "json",
+                    data: $('#loginForm').serialize(),
                     success: function (data) {
+                        console.log(data);
                         if(data == "success"){
-                            layui.msg("登录成功!",{icon:1,anim:2,time:2000},function () {
+                            layer.msg("登录成功!",{icon:1,anim:2,time:2000},function() {
                                 window.location.href = "view/index";
                             });
                         }else {

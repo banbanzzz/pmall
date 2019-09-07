@@ -295,6 +295,11 @@ div:hover {
     color: #ADADAD;
     margin: 5px 0;
 }
+.span16 .goods-memory{
+	font-size: 14px;
+	color: rgba(145,145,145,0.82);
+	margin: 5px 0;
+}
 .span16 .brick4{
 	margin: 0 0 14px 0;
 }

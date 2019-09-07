@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 public interface IGoodsTypeService {
+    GoodsType findTypeById(Integer id);
     List<GoodsType> findAllType();
     Integer addGoodsType(GoodsType type);
     Integer updateGoodsType(GoodsType type);

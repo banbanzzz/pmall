@@ -48,8 +48,13 @@
                                             data-toggle="dropdown" role="button" aria-haspopup="true"
                                             aria-expanded="false">
                         <div style="margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;">
-                            <img src="upload/${user.userImg }" style="width:30px;height:30px;" class="layui-nav-img">
-                        </div>&nbsp;&nbsp;${sessionScope.user.userName} <span
+                            <c:if test="${user.user_img=='1'}">
+                                <img src="upload/headpic.jpg" style="width:30px;height:30px;" class="layui-nav-img">
+                            </c:if>
+                            <c:if test="${user.user_img!='1'}">
+                                <img src="upload/${user.user_img }" style="width:30px;height:30px;" class="layui-nav-img">
+                            </c:if>
+                        </div>&nbsp;&nbsp;${sessionScope.user.user_name} <span
                             class="caret"></span>
                     </a>
                         <ul class="dropdown-menu">
@@ -64,7 +69,7 @@
             <div class="navbar-form navbar-right">
                 <form action="goods/search" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="iPhone X" name="keyWord"
+                        <input type="text" class="form-control" placeholder="iPhone X" name="KeyWord"
                                id="searchKeyWord"/>
                     </div>
                     <button class="btn btn-default" type="submit">查找商品</button>

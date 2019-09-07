@@ -14,9 +14,13 @@
         <result property="goods_desc" column="goods_desc" javaType="java.lang.String"/>
         <result property="goods_volume" column="goods_volume" javaType="java.lang.Integer"/>
     </resultMap>
-    <resultMap id="BaseGoodsJoinObject" extends="BaseGoods" type="com.entity.Goods">
-        <association property="goods_type" column="goods_type" javaType="com.entity.GoodsType" select="com.mapper.GoodsTypeMapper.findTypeById"></association>
-        <association property="goods_memory" column="goods_memory" javaType="com.entity.Memory" select="com.mapper.MemoryMapper.findMemoryById"></association>
+    <resultMap id="BaseGoodsJoinObject" extends="BaseGoods" type="Goods">
+        <association property="goods_type" column="goods_type" javaType="GoodsType" select="com.mapper.GoodsTypeMapper.findTypeById"></association>
+        <association property="goods_memory" column="goods_memory" javaType="Memory" select="com.mapper.MemoryMapper.findMemoryById"></association>
+    </resultMap>
+    <resultMap id="Base" type="com.util.GoodsTypeVO">
+        <result property="type" column="type" javaType="java.lang.String"/>
+        <result property="volumes" column="volumes" javaType="java.lang.Integer"/>
     </resultMap>
 
     <select id="findAllBaseData" resultMap="BaseGoods">
@@ -28,7 +32,12 @@
     </select>
 
     <select id="findHotGoods" parameterType="java.lang.Integer" resultMap="BaseGoodsJoinObject">
-        select * from goods where goods_state = 2 limit #{num}
+        select * from goods where goods_state &gt;= 0 and goods_volume &gt;= 10 order by goods_volume desc limit #{num}
+    </select>
+
+    <select id="findGoodsTypeByVolume" resultMap="Base">
+        select goods_type.type_name as type,sum(goods_volume) as volumes from goods,goods_type
+        where goods.goods_type = goods_type.type_id GROUP BY type order by volumes
     </select>
 
     <insert id="addGoods" parameterType="com.entity.Goods">
@@ -36,11 +45,15 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         insert into goods(goods_name,goods_price,goods_num,goods_type,goods_memory,goods_color,goods_img,goods_desc)
-        values(#{goods_name},#{goods_price},#{goods_type.type_id},#{goods_memory.memory_id},#{goods_color},#{goods_img},#{goods_desc})
+        values(#{goods_name},#{goods_price},#{goods_num},#{goods_type.type_id},#{goods_memory.memory_id},#{goods_color},#{goods_img},#{goods_desc})
     </insert>
 
     <update id="deleteGoods" parameterType="java.lang.Integer">
         update goods set goods_state = -1 where goods_id = #{goods_id}
+    </update>
+
+    <update id="outOfStock" parameterType="java.lang.Integer">
+        update goods set goods_state = 0 where goods_id = #{good_id}
     </update>
 
     <update id="updateGoods" parameterType="com.entity.Goods">
@@ -68,10 +81,23 @@
                 goods_img = #{goods_img},
             </if>
             <if test="goods_desc!=null">
-                goods_desc = #{goods_desc}
+                goods_desc = #{goods_desc},
+            </if>
+            <if test="goods_volume!=null">
+                goods_volume = #{goods_volume}
             </if>
         </set>
         where goods_id = #{goods_id}
+    </update>
+
+    <update id="reduceGoodsVolume" parameterType="java.lang.Integer">
+        update goods set goods_num = goods_num - #{num},goods_volume = goods_volume + #{num}
+         where goods_id = #{goods_id}
+    </update>
+
+    <update id="addGoodsVolume" parameterType="java.lang.Integer">
+        update goods set goods_num = goods_num + #{num},goods_volume = goods_volume - #{num}
+         where goods_id = #{goods_id}
     </update>
 
     <select id="findGoodsById" parameterType="java.lang.Integer" resultMap="BaseGoodsJoinObject">

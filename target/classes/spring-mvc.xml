@@ -30,12 +30,30 @@
 		<property name="maxUploadSize" value="10485760" />
 	</bean>
 
-<!--	<mvc:interceptors>-->
-<!--		&lt;!&ndash; 对特定的请求进行拦截 &ndash;&gt;-->
-<!--		<mvc:interceptor>-->
+	<mvc:interceptors>
+		<!-- 对特定的请求进行拦截 -->
+		<mvc:interceptor>
 <!--			<mvc:mapping path="/goods/detail" />-->
-<!--			<mvc:mapping path="/cart/*" />-->
-<!--			<bean id="UserLoginInterceptor" class="com.interceptor.UserLoginInterceptor"></bean>-->
-<!--		</mvc:interceptor>-->
-<!--	</mvc:interceptors>-->
+			<mvc:mapping path="/view/usercenter"/>
+			<mvc:mapping path="/view/cart"/>
+			<mvc:mapping path="/cart/*"/>
+			<mvc:mapping path="/guess/*"/>
+			<bean id="UserLoginInterceptor" class="com.interceptor.UserLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/view/adminIndex"/>
+			<mvc:mapping path="/view/main"/>
+			<mvc:mapping path="/view/userlist"/>
+			<mvc:mapping path="/view/bannerlist"/>
+			<mvc:mapping path="/view/addbanner"/>
+			<mvc:mapping path="/view/goodslist"/>
+			<mvc:mapping path="/view/addGoods"/>
+			<mvc:mapping path="/view/evalist"/>
+			<mvc:mapping path="/view/typelist"/>
+			<mvc:mapping path="/view/adminlist"/>
+			<mvc:mapping path="/view/updatepass"/>
+			<mvc:mapping path="/view/orderlist"/>
+			<bean id="AdminLoginInteceptor" class="com.interceptor.AdminLoginInteceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>

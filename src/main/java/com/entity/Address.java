@@ -14,7 +14,7 @@ public class Address implements Serializable {
     private String addr_area;
     private String addr_detail;
     private Integer addr_user;
-    private String addr_zipcpde;
+    private String addr_zipcode;
     private String addr_phone;
     private String addr_nickname;
     private Integer addr_state; //1：默认  0：取消默认 -1:删除
@@ -67,12 +67,12 @@ public class Address implements Serializable {
         this.addr_user = addr_user;
     }
 
-    public String getAddr_zipcpde() {
-        return addr_zipcpde;
+    public String getAddr_zipcode() {
+        return addr_zipcode;
     }
 
-    public void setAddr_zipcpde(String addr_zipcpde) {
-        this.addr_zipcpde = addr_zipcpde;
+    public void setAddr_zipcode(String addr_zipcode) {
+        this.addr_zipcode = addr_zipcode;
     }
 
     public String getAddr_phone() {
@@ -100,7 +100,7 @@ public class Address implements Serializable {
     }
 
     public Address(Integer addr_id, String addr_province, String addr_city, String addr_area, String addr_detail,
-                   Integer addr_user, String addr_zipcpde, String addr_phone, String addr_nickname, Integer addr_state) {
+                   Integer addr_user, String addr_zipcode, String addr_phone, String addr_nickname, Integer addr_state) {
         super();
         this.addr_id = addr_id;
         this.addr_province = addr_province;
@@ -108,7 +108,7 @@ public class Address implements Serializable {
         this.addr_area = addr_area;
         this.addr_detail = addr_detail;
         this.addr_user = addr_user;
-        this.addr_zipcpde = addr_zipcpde;
+        this.addr_zipcode = addr_zipcode;
         this.addr_phone = addr_phone;
         this.addr_nickname = addr_nickname;
         this.addr_state = addr_state;

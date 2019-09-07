@@ -25,7 +25,7 @@ import java.util.List;
 public class GoodsListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        ApplicationContext app = new ClassPathXmlApplicationContext("spring.xml");
+        ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
         IGoodsService service = app.getBean(IGoodsService.class);
         IGoodsTypeService typeService = app.getBean(IGoodsTypeService.class);
         IMemoryService memoryService = app.getBean(IMemoryService.class);

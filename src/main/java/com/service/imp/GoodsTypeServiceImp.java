@@ -21,6 +21,11 @@ public class GoodsTypeServiceImp implements IGoodsTypeService {
     @Autowired
     private GoodsMapper goodsMapper;
 
+    @Override
+    public GoodsType findTypeById(Integer id) {
+        return goodsTypeMapper.findTypeById(id);
+    }
+
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     @Override
     public List<GoodsType> findAllType() {

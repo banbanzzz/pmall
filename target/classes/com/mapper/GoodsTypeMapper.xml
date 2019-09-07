@@ -38,7 +38,7 @@
     </select>
 
     <select id="findAllTypeByLikeName" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from goods_type where &gt;= 0 and type_name like '%${value}%'
+        select * from goods_type where type_state &gt;= 0 and type_name like '%${value}%'
     </select>
 
     <select id="findAllBySplitPage" resultMap="BaseResultMap">

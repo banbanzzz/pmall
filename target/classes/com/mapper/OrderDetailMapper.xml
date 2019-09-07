@@ -42,6 +42,6 @@
     </update>
 
     <select id="findOrderDetailByOrderId" parameterType="java.lang.String" resultMap="BaseResultMapJoinObj">
-        select * from order_detail where order_id = #{order_id}
+        select * from order_detail where detail_order = #{order_id}
     </select>
 </mapper>

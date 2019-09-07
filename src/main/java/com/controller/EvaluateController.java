@@ -9,6 +9,8 @@ import com.github.pagehelper.PageInfo;
 import com.service.IEvaluateService;
 import com.service.IGoodsService;
 import com.service.IOrderService;
+import com.service.IRedisEvaluateService;
+import com.util.Time;
 import com.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ public class EvaluateController {
     private IEvaluateService evaluateService;
     @Autowired
     private IOrderService orderService;
+    @Autowired
+    private IRedisEvaluateService redisService;
 
     @RequestMapping("addEvaluate")
     @ResponseBody
@@ -56,13 +60,14 @@ public class EvaluateController {
         }
         for(OrderDetail detail : list){
             eva.setEva_goods(detail.getDetail_goods());
-            eva.setEva_date(new Date());
+            eva.setEva_date(Time.getDate());
             eva.setEva_user(user);
             eva.setEva_state(state);
             Integer rs = evaluateService.addEvaluate(eva,imgs);
             if(rs < 0){
                 flag = false;
             }
+            redisService.RefreshEvaluate(detail.getDetail_goods().getGoods_id());
         }
         if(flag){
             orderService.evaOrder(eva_order);
@@ -105,8 +110,10 @@ public class EvaluateController {
     @RequestMapping("deleteEva")
     @ResponseBody
     public String deleteEva(Integer eva_id){
+        Evaluate evaluate = evaluateService.findEvaluateById(eva_id);
         Integer rs = evaluateService.deleteEvaluate(eva_id);
         if(rs > 0){
+            redisService.RefreshEvaluate(evaluate.getEva_goods().getGoods_id());
             return "success";
         }else {
             return "fail";
@@ -120,10 +127,12 @@ public class EvaluateController {
         boolean flag = true;
         for(String id : list){
             Integer eva_id = Integer.valueOf(id);
+            Evaluate evaluate = evaluateService.findEvaluateById(eva_id);
             Integer rs = evaluateService.deleteEvaluate(eva_id);
             if(rs < 0){
                 flag = false;
             }
+            redisService.RefreshEvaluate(evaluate.getEva_goods().getGoods_id());
         }
         if(flag){
             return "success";

@@ -19,7 +19,7 @@ import java.util.List;
 public class BannerListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        ApplicationContext app = new ClassPathXmlApplicationContext("spring.xml");
+        ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
         IBannerService bannerService = app.getBean(IBannerService.class);
         ServletContext application =  servletContextEvent.getServletContext();
         List<Banner> bannerList = bannerService.findAllShowBanner();

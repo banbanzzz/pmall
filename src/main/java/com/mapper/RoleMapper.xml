@@ -5,12 +5,15 @@
         <id property="role_id" column="role_id" javaType="java.lang.Integer"/>
         <result property="role_name" column="role_name" javaType="java.lang.String"/>
     </resultMap>
+    <resultMap id="BaseResultMapJoinList" extends="BaseResultMap" type="Role">
+        <collection property="role_funs" column="role_id" javaType="java.util.ArrayList" select="com.mapper.FunsMapper.findFunsByRoleId"></collection>
+    </resultMap>
 
-    <select id="findById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="findById" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinList">
         select * from role where role_id = #{role_id}
     </select>
 
-    <select id="findAllRole" resultMap="BaseResultMap">
+    <select id="findAllRole" resultMap="BaseResultMapJoinList">
         select * from role
     </select>
 </mapper>

@@ -58,10 +58,21 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">修改头像</label>
+                    <label class="layui-form-label" style="width: 90px;margin-left: -10px;">修改头像</label>
                     <div class="layui-input-block">
-                        <img src="upload/${user.user_img}" alt="" style="width: 100px;height: 100px;">
-                        <button class="layui-btn" id="upload">
+                        <c:if test="${user.user_img=='1'}">
+                            <img src="upload/headpic.jpg" alt="" style="width: 100px;height: 100px;">
+                        </c:if>
+                        <c:if test="${user.user_img!='1'}">
+                            <img src="upload/${user.user_img}" alt="" style="width: 100px;height: 100px;">
+                        </c:if>
+                        <!--
+                        layui防自动提交表单，
+                        1、设置为a标签
+                        2、将type设置为button
+                        3、设置lay-filter="id" 通过js回调return false->form.on('submit(id)',function(){return false})
+                        -->
+                        <button type="button" class="layui-btn" id="test1" style="margin-left: 20px;">
                             <i class="layui-icon">&#xe67c;</i>上传图片
                         </button>
                         <div class="layui-input-block" style="display: inline-block;" id="viewPic"></div>
@@ -77,23 +88,29 @@
     </div>
     <!-- 尾部 -->
     <jsp:include page="include/foot.jsp"/>
-
     <script type="text/javascript">
-        layui.use(['form','upload','layer'],function () {
-            var layer = layui.layer;
+        layui.use([ 'form','upload','layer' ], function() {
             var form = layui.form;
+            var layer=layui.layer;
             var upload = layui.upload;
-            var uploadImg = upload.render({
-               elem: '#upload',
-                url: 'user/upload',
-                done: function (res) {
-                    layer.msg('上传成功！',{icon:1,time:2000});
-                    var div = "<input type='hidden' name='userImg' value='+res.user_img+'>";
-                    $("#newUserImg").html(div);
-                    $("#viewPic").html("新头像预览：<img style='width: 100px;height: 100px;' src='upload/"+res.user_img+"'>");
-                },
-                error: function () {
-                    layer.msg('上传失败，请重试！',{icon:5,time:2000});
+            var uploadInst = upload.render({
+                elem: '#test1' //绑定元素
+                ,file: 'images'
+                ,url: 'http://localhost:8080/user/upload' //上传接口
+                ,done: function(res){
+                    layer.msg('上传成功！', {
+                        icon : 1,
+                        time : 2000
+                    });
+                    var str="<input type='hidden' name='user_img' value="+res.user_img+" >";
+                    $("#newUserImg").html(str);
+                    $("#viewPic").html("新头像预览：<img style='width:100px;height:100px;' src='upload/"+res.user_img+"'>");
+                }
+                ,error: function(){
+                    layer.msg('上传失败，请重试！', {
+                        icon : 5,
+                        time : 2000
+                    });
                 }
             });
         });

@@ -3,6 +3,10 @@ package com.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * MD5密码加密
+ * @author Wxj
+ */
 public class MD5Util {
     public static String passToMD5(String passWord){
         StringBuilder sb = new StringBuilder();

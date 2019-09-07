@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.FunsMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Funs">
+        <id property="fun_id" column="fun_id" javaType="java.lang.Integer"/>
+        <result property="fun_name" column="fun_name" javaType="java.lang.String"/>
+        <result property="fun_url" column="fun_url" javaType="java.lang.String"/>
+        <result property="fun_pid.fun_id" column="fun_pid" javaType="java.lang.Integer"/>
+        <result property="fun_target" column="fun_target" javaType="java.lang.String"/>
+    </resultMap>
+    <resultMap id="BaseResultMapJoinObj" extends="BaseResultMap" type="com.entity.Funs">
+        <association property="fun_pid" column="fun_pid" javaType="Funs" select="findFunsById"></association>
+    </resultMap>
+    <resultMap id="BaseResultMapJoinList" extends="BaseResultMapJoinObj" type="Funs">
+        <collection property="funsList" column="fun_id" javaType="java.util.ArrayList" select="findFunsByPid"></collection>
+    </resultMap>
+    <select id="findFunsById" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinList">
+        select * from funs where fun_id = #{id}
+    </select>
+    <select id="findFunsByPid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from funs where fun_pid = #{pid}
+    </select>
+    <select id="findAllFuns" resultMap="BaseResultMapJoinList">
+        select * from funs
+    </select>
+    <select id="findFunsByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinList">
+        select * from funs f left join permissions p on f.fun_id = p.permission_fun where p.permission_role = #{role_id}
+    </select>
+</mapper>

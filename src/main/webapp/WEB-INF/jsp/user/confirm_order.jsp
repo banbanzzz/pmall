@@ -41,6 +41,7 @@
             <div class="col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-1">
                 <form action="order/takeOrder" id="orderFrom" method="post">
                     <h2>请选择收货地址</h2>
+                    <input type="hidden" value="${errmsg}" id="errmsg">
                     <table>
                         <c:if test="${not empty addressList}">
                             <c:forEach items="${addressList}" var="addr">
@@ -69,20 +70,20 @@
                         <c:forEach items="${cartList}" var="cart">
                             <tr>
                                 <input type="hidden" name="goodslist" value="${cart.cart_id}">
-                                <td><img src="upload/${cart.cart_goods.goods_img}" style="height: 40px;"></td>
+                                <td><a href="goods/detail?goodsId=${cart.cart_goods.goods_id}"><img src="upload/${cart.cart_goods.goods_img}" style="height: 60px;"></a></td>
                                 <td><a href="goods/detail?goodsId=${cart.cart_goods.goods_id}" style="text-decoration: none">${cart.cart_goods.goods_name}</a></td>
                                 <td>${cart.cart_goods.goods_price}元</td>
                                 <td>${cart.cart_num}</td>
-                                <td><span name="singleTotal">${cart.cart_goods.goods_price}*${cart.cart_num}</span>元</td>
+                                <td><span name="singleTotal">${cart.cart_goods.goods_price * cart.cart_num}</span>元</td>
                             </tr>
                         </c:forEach>
                     </table>
                     <hr/>
                     <div style="text-align: right;width: 1000px;height: 50px;font-size: 16px;color: red">
-                        已选<span id="totalNum">0</span>件&nbsp;&nbsp;&nbsp;总价：<span id="totalPrice">0</span>元</div>
+                        总价：<span id="totalPrice">0</span>元</div>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4"></div>
-                        <button class="btn btn-danger btn-lg col-lg-4 col-md-4 col-sm-4" onclick="confirmPre();">确认下单</button>
+                        <button type="button" class="btn btn-danger btn-lg col-lg-4 col-md-4 col-sm-4" onclick="confirmPre();">确认下单</button>
                     </div>
                 </form>
             </div>
@@ -96,6 +97,10 @@
         layui.use(['layer','form'], function () {
             var layer = layui.layer;
             var form = layui.form;
+            var errmsg = $("#errmsg").val();
+            if (errmsg != "") {
+                layer.msg(errmsg, {icon: 5, anim: 6, time: 2000});
+            }
         });
         $(function () {
            var list = $("span[name='singleTotal']");
@@ -115,8 +120,19 @@
         }
         function confirmPre() {
             var flag = checkSelect();
+            var errmsg = $("#errmsg").val();
+            console.log(errmsg);
             if(flag){
-                $('#orderFrom').submit();
+                // var list = $("span[name='singleTotal']");
+                // for(var i = 0; i < list.length; i++){
+                //     var price = parseInt($(list[i]).html());
+                //     console.log(price);
+                // }
+                if(errmsg != ""){
+                    layer.msg(errmsg,{icon:5,anim:6,time:2000});
+                }else{
+                    $('#orderFrom').submit();
+                }
             }else {
                 layer.msg('请选择收货地址',{icon:5,anim:6,time:2000});
             }

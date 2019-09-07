@@ -27,8 +27,8 @@
         update admins set admin_state = -1 where admin_id = #{admin_id}
     </update>
 
-    <update id="disableAdmin" parameterType="java.lang.Integer">
-        update admin set admin_state = 0 where admin_id = #{admin_id}
+    <update id="changeAdminState">
+        update admins set admin_state = #{state} where admin_id = #{admin_id}
     </update>
 
     <update id="updateAdmin" parameterType="com.entity.Admins">

@@ -5,6 +5,7 @@ import com.entity.Guess;
 import com.entity.Users;
 import com.service.IGoodsService;
 import com.service.IGuessService;
+import com.util.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class GuessController {
         HttpSession session = request.getSession();
         Users user = (Users)session.getAttribute("user");
         Goods goods = goodsService.findGoodsById(goods_id);
-        Guess guess = new Guess(goods,user,new Date());
+        Guess guess = new Guess(goods,user, Time.getDate());
         Integer rs = guessService.addGuess(guess);
         if(rs > 0){
             return "success";

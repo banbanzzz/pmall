@@ -33,7 +33,6 @@ public class GuessServiceImp implements IGuessService {
         return guessMapper.removeGuess(user_id, goods_id);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     @Override
     public Guess findGuessByUser(Integer user_id, Integer goods_id) {
         return guessMapper.findGuessByUser(user_id, goods_id);

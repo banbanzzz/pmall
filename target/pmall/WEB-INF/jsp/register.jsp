@@ -38,40 +38,40 @@
                             <div class="layui-form-item">
                                 <label
                                     class="layadmin-user-login-icon layui-icon layui-icon-username"
-                                    for="LAY-user-login-nickname">
-                                </label> 
-                                <input type="text" name="user_name" id="LAY-user-login-nickname" lay-verify="nickname"
+                                    for="user_name">
+                                </label>
+                                <input type="text" name="user_name" id="user_name" lay-verify="nickname"
                                     placeholder="昵称" class="layui-input">
                             </div>
                             <div class="layui-form-item">
                                 <label
                                     class="layadmin-user-login-icon layui-icon layui-icon-password"
-                                    for="LAY-user-login-password">
+                                    for="user_pass">
                                 </label>
-                                <input type="password" name="user_pass" id="LAY-user-login-password" lay-verify="pass"
+                                <input type="password" name="user_pass" id="user_pass" lay-verify="pass"
                                     placeholder="密码" class="layui-input">
                             </div>
                             <div class="layui-form-item">
                                 <label
                                     class="layadmin-user-login-icon layui-icon layui-icon-password"
-                                    for="LAY-user-login-repass">
-                                </label> 
+                                    for="repass">
+                                </label>
                                 <input type="password"
-                                    name="repass" id="LAY-user-login-repass" lay-verify="required"
+                                    name="repass" id="repass" lay-verify="required"
                                     placeholder="确认密码" class="layui-input">
                             </div>
                             <div class="layui-form-item">
                                 <label
                                     class="layadmin-user-login-icon layui-icon layui-icon-cellphone"
-                                    for="LAY-user-login-cellphone"></label> <input type="text"
-                                    name="userPhone" id="LAY-user-login-cellphone"
+                                    for="user_phone"></label> <input type="text"
+                                    name="user_phone" id="user_phone"
                                     lay-verify="phone" placeholder="手机" class="layui-input">
                             </div>
                             <div class="layui-form-item">
                                 <label
                                     class="layadmin-user-login-icon layui-icon layui-icon-cellphone"
-                                    for="LAY-user-login-email"></label> <input type="text"
-                                    name="userEmail" id="LAY-user-login-email"
+                                    for="user_email"></label> <input type="text"
+                                    name="user_email" id="user_email"
                                     lay-verify="email" placeholder="邮箱" class="layui-input">
                             </div>
                             <div class="layui-form-item" style="height:50px;">
@@ -94,9 +94,9 @@
                                     class="layui-icon layui-icon-login-wechat"></i></a> <a
                                     href="javascript:;"><i
                                     class="layui-icon layui-icon-login-weibo"></i></a> <a
-                                    lay-href="user/login"
+                                    href="view/login"
                                     class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
-                                <a lay-href="user/login"
+                                <a href="view/login"
                                     class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">登入</a>
                             </div>
                         </div>
@@ -107,19 +107,25 @@
         <!--尾部-->
         <jsp:include page="user/include/foot.jsp" />
         <script type="text/javascript">
-            layui.use(['form','layer'], function() {
+            layui.use(['form', 'layer'], function () {
                 var form = layui.form;
                 var layer = layui.layer;
-                form.on('submit(regSubmit)', function () {
-                    $.post("user/register",$("#regForm").serialize(),function(data){
-                        if(data == "success"){
-                            layui.msg("注册成功！即将转向登陆页面！",{icon:1,anim:4,time:2000},function() {
-                                window.location.href = "view/login";
-                            });
-                        }else {
-                            layui.msg("注册失败！",{icon:5,anim:6,time:3000});
-                        }
-                    });
+                form.on('submit(regSubmit)', function (data) {
+                    if(data.field.user_pass != data.field.repass){
+                        layer.msg("密码不一致！", {icon: 5, anim: 6, time: 2000});
+                    }else if(data.field.agreement != "on") {
+                        layer.msg("未同意用户协议！", {icon: 5, anim: 6, time: 2000});
+                    }else {
+                        $.post("user/register", $("#regForm").serialize(), function (data) {
+                            if (data == "success") {
+                                layer.msg("注册成功！即将转向登陆页面！", {icon: 1, anim: 4, time: 2000}, function () {
+                                    window.location.href = "view/login";
+                                });
+                            } else {
+                                layer.msg("注册失败！", {icon: 5, anim: 6, time: 2000});
+                            }
+                        });
+                    }
                 });
             });
         </script>

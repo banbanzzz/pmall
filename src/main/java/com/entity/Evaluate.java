@@ -15,7 +15,7 @@ public class Evaluate implements Serializable {
     private Integer eva_id;
     private Users eva_user;
     private String eva_content;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date eva_date;
     private Goods eva_goods;
     private Integer eva_state; //评价状态 根据评分 评分1星：-1（差评）评分2-3星：0（中评）评分4-5星：1（好评

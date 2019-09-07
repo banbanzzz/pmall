@@ -1,15 +1,19 @@
 package com.service.imp;
 
+import com.alibaba.fastjson.JSON;
 import com.entity.Goods;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mapper.GoodsMapper;
 import com.service.IEvaluateService;
 import com.service.IGoodsService;
+import com.util.GoodsTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,14 @@ public class GoodsServiceImp implements IGoodsService {
     private GoodsMapper goodsMapper;
     @Autowired
     private IEvaluateService evaluateService;
+    @Autowired
+    private JedisPool jedisPool;
+
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    @Override
+    public List<GoodsTypeVO> findGoodsTypeByVolume() {
+        return goodsMapper.findGoodsTypeByVolume();
+    }
 
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     @Override
@@ -30,24 +42,42 @@ public class GoodsServiceImp implements IGoodsService {
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     @Override
     public Goods findGoodsById(Integer id) {
-        Goods goods = goodsMapper.findGoodsById(id);
-        goods.setEvaList(evaluateService.findEvaluateByGoods(goods.getGoods_id()));
-        return goods;
+        Jedis jedis = jedisPool.getResource();
+        String str = jedis.get(id+"");
+        jedis.close();
+        if(str == null || str.equals("")) {
+            Goods goods = goodsMapper.findGoodsById(id);
+            goods.setEvaList(evaluateService.findEvaluateByGoods(goods.getGoods_id()));
+            jedis.set(goods.getGoods_id()+"", JSON.toJSONString(goods));
+            return goods;
+        }else{
+            //将json转换为对象
+            return JSON.toJavaObject(JSON.parseObject(str),Goods.class);
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Integer addGoods(Goods goods) {
-        return goodsMapper.addGoods(goods);
+        Integer rs = goodsMapper.addGoods(goods);
+        Jedis jedis = jedisPool.getResource();
+        if(rs > 0){
+            jedis.set(goods.getGoods_id()+"",JSON.toJSONString(goods));
+        }
+        jedis.close();
+        return rs;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Integer updateGoods(Goods goods) {
         Integer rs = goodsMapper.updateGoods(goods);
+        Jedis jedis = jedisPool.getResource();
         if(rs > 0){
             goods.setEvaList(evaluateService.findEvaluateByGoods(goods.getGoods_id()));
+            jedis.set(goods.getGoods_id()+"",JSON.toJSONString(goods));
         }
+        jedis.close();
         return rs;
     }
 
@@ -55,6 +85,50 @@ public class GoodsServiceImp implements IGoodsService {
     @Override
     public Integer deleteGoods(Integer id) {
         Integer rs = goodsMapper.deleteGoods(id);
+        Jedis jedis = jedisPool.getResource();
+        if(rs > 0){
+            jedis.del(id+"");
+        }
+        jedis.close();
+        return rs;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+    @Override
+    public Integer outOfStock(Integer good_id) {
+        Integer rs = goodsMapper.outOfStock(good_id);
+        Jedis jedis = jedisPool.getResource();
+        if(rs > 0){
+            Goods goods = goodsMapper.findGoodsById(good_id);
+            jedis.set(good_id+"",JSON.toJSONString(goods));
+        }
+        jedis.close();
+        return rs;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+    @Override
+    public Integer reduceGoodsVolume(Integer num,Integer goods_id) {
+        Integer rs = goodsMapper.reduceGoodsVolume(num, goods_id);
+        Jedis jedis = jedisPool.getResource();
+        if(rs > 0){
+            Goods goods = goodsMapper.findGoodsById(goods_id);
+            jedis.set(goods_id+"",JSON.toJSONString(goods));
+        }
+        jedis.close();
+        return rs;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+    @Override
+    public Integer addGoodsVolume(Integer num,Integer goods_id) {
+        Integer rs = goodsMapper.addGoodsVolume(num, goods_id);
+        Jedis jedis = jedisPool.getResource();
+        if(rs > 0){
+            Goods goods = goodsMapper.findGoodsById(goods_id);
+            jedis.set(goods_id+"",JSON.toJSONString(goods));
+        }
+        jedis.close();
         return rs;
     }
 

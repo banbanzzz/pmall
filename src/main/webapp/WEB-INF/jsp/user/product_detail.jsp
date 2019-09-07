@@ -7,7 +7,6 @@
     String basePaht = request.getScheme() + "://" + request.getServerName() +":" + request.getServerPort()
             + path + "/";
 %>
-%>
 <!DOCTYPE HTML>
 <head>
     <base href="<%=basePaht%>">
@@ -22,18 +21,18 @@
     <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="resources/js/layui.js" type="text/javascript"></script>
     <style type="text/css">
-        .dl-horizonal span{
+        .dl-horizontal span{
             font-size: 16px;
             margin: 15px 15px;
         }
-        .dl-horizonal .badge{
+        .dl-horizontal .badge{
             background-color: #009688;
         }
         #btnFont button{
             font-size: 16px;
         }
         #img{
-            /*float: center;*/
+            float: center;
             padding-top: 35px;
         }
     </style>
@@ -59,32 +58,40 @@
             <!-- 参数 -->
             <div class="col-md-5 column">
                 <dl class="dl-horizontal">
-                    <dt><span class="bage">${requestScope.goods.goods_price}元</span></dt>
-                    <dd><span class="bage">${requestScope.goods.goods_memory.memory_name}</span></dd>
-                    <dt><span class="bage">${requestScope.goods.goods_color}</span></dt>
-                    <dd><span class="bage">${requestScope.goods.goods_desc}</span></dd>
-                    <dt><span class="bage">购买数量</span></dt>
+                    <dt><span class="badge">${requestScope.goods.goods_price}元</span></dt>
+                    <dd><span class="badge">${requestScope.goods.goods_memory.memory_name}</span></dd>
+                    <dt><span class="badge">${requestScope.goods.goods_color}</span></dt>
+                    <dd><span class="badge">${requestScope.goods.goods_desc}</span></dd>
+                    <dt><span class="badge">购买数量</span></dt>
                     <dd>
                         <div style="height: 38px;padding-left: 10px;padding-top: 5px;">
                             <button class="layui-btn layui-btn-radius" style="float: left" id="redubtn" onclick="reduceCounts()">-</button>
                             <div class="layui-input-inline" style="width: 50px;float: left">
-                                <input type="text" class="layui-input" id="num" name="goods.goods_num" autocomplete="off" value="1">
+                                <input type="text" class="layui-input" style="text-align: center;padding-right: 10px;" id="num" name="goods.goods_num" autocomplete="off" value="1">
                             </div>
                             <button class="layui-btn layui-btn-radius" id="addbtn" style="float: left" onclick="addCounts()">+</button>
                         </div>
                     </dd>
                     <dt style="padding-top: 20px;">
-                        <button class="layui-btn layui-btn-lg layui-btn-radius" onclick="addToCart()">
-                            <i class="layui-icon">&#xe608;</i>加入购物车
-                        </button>
+                        <c:if test="${requestScope.goods.goods_num == 0}">
+                            <button class="layui-btn layui-btn-lg layui-btn-radius layui-btn-disabled" disabled="disabled">
+                                <i class="layui-icon">&#xe702;</i>备货中
+                            </button>
+                        </c:if>
+                        <c:if test="${requestScope.goods.goods_num != 0}">
+                            <button class="layui-btn layui-btn-lg layui-btn-radius" onclick="addToCart()">
+                                <i class="layui-icon">&#xe608;</i>加入购物车
+                            </button>
+                        </c:if>
                     </dt>
-                    <dd style="padding-top: 20px;padding-left: 10px;width: 320px;">
+                    <dd style="padding-top: 20px;padding-left: 0;width: 320px;">
                         <button class="layui-btn layui-btn-lg layui-btn-radius" id="guess" onclick="addToGuess()">
                             <i class="layui-icon">&#xe600;</i>加入收藏
                         </button>
                         <button class="layui-btn layui-btn-lg layui-btn-radius" id="unguess" onclick="removeGuess()">
                             <i class="layui-icon">&#xe658;</i>取消收藏
-                        </button>  <button class="layui-btn layui-btn-lg layui-btn-radius" onclick="javascript:window.location.href='view/cart';">
+                        </button>
+                        <button class="layui-btn layui-btn-lg layui-btn-radius" onclick="javascript:window.location.href='view/cart';">
                             <i class="layui-icon">&#xe698;</i>去购物车
                         </button>
                     </dd>
@@ -104,7 +111,12 @@
                         <c:forEach items="${evaList}" var="eva">
                             <hr class="layui-bg-blue">
                             <a href="javascript:;" class="media-left">
-                                <img src="upload/${eva.eva_user.user_img}" style="height: 55px;width: 55px;" class="layui-nav-img">
+                                <c:if test="${eva.eva_user.user_img == '1'}">
+                                    <img src="upload/headpic.jpg" style="height: 55px;width: 55px;" class="layui-nav-img">
+                                </c:if>
+                                <c:if test="${eva.eva_user.user_img != '1'}">
+                                    <img src="upload/${eva.eva_user.user_img}" style="height: 55px;width: 55px;" class="layui-nav-img">
+                                </c:if>
                             </a>
                             <div class="pad-btm">
                                 <p class="fontColor">
@@ -121,7 +133,9 @@
                             <div>
                                 <c:if test="${eva.imgList!=null}">
                                     <c:forEach items="${eva.imgList}" var="img">
-                                        <img src="upload/${img.evaimg_name}" style="height: 80px;width: 100px;">
+                                        <c:if test="${img.evaimg_name != null && img.evaimg_name != ''}">
+                                            <img src="upload/${img.evaimg_name}" style="height: 80px;width: 100px;">
+                                        </c:if>
                                     </c:forEach>
                                 </c:if>
                             </div>
@@ -139,9 +153,11 @@
 
     <script type="text/javascript">
         var flag = true;
-        layui.use(['rate','layui'], function () {
-            var layer = layui.layer;
-            var rate = layui.rate;
+        var layer;
+        var rate;
+        layui.use(['layer','rate'], function () {
+           layer = layui.layer;
+           rate = layui.rate;
             $("#num").bind('input propertychange', function () {
                 var num = parseInt($("#num").val());
                 if(num <= 0){
@@ -162,7 +178,7 @@
                 var id = arr[i].substring(0,arr[i].length-1);
                 var v = arr[i].substr(arr.length-1,1);
                 rate.render({
-                    elem: '#evaStar' + id,
+                    elem: '#eva_level' + id,
                     theme: '#FF5722',
                     readonly: true,
                     value: v
@@ -172,25 +188,31 @@
         $(function () {
             isGuess();
             showHotGoods();
-        })
-        function isGuess() {
-           var goods_id = $("#goods_id").val();
-           $.ajax({
-               type: "post",
-               url: "guess/isGuess",
-               data: {"goods_id" : goods_id},
-               dataType: "json",
-               success: function(data){
-                   if(data == "true"){
-                       $("#guess").hide();
-                       $("#unguess").show();
-                   }else {
-                       $("#guess").show();
-                       $("#unguess").hide();
-                   }
-               }
-           });
+        });
+        function isEmpty() {
+            var goods_id = $("#goods_id").val();
+            $.ajax({
+
+            });
         }
+        function isGuess() {
+            var goods_id = $("#goods_id").val();
+            $.ajax({
+                type: "post",
+                url: "guess/isGuess",
+                data: {goods_id: goods_id},
+                success: function (data) {
+                    console.log(data);
+                    if (data == "true") {
+                        $("#guess").hide();
+                        $("#unguess").show();
+                    } else {
+                        $("#guess").show();
+                        $("#unguess").hide();
+                    }
+                }
+            });
+        };
         function reduceCounts() {
             var num = parseInt($("#num").val());
             if(num - 1 <= 0){
@@ -199,23 +221,22 @@
                 num--;
                 $("#num").val(num);
             }
-        }
+        };
         function addCounts() {
             var num = parseInt($("#num").val());
             $("#num").val(num + 1);
             $("#redubtn").prop("disabled",false);
-        }
+        };
         function addToCart() {
-            var num = $("num").val();
+            var num = $("#num").val();
             var goods_id = $("#goods_id").val();
             $.ajax({
                 type: "post",
                 url: "cart/addCart",
                 data: {
-                    "num": num,
-                    "goods_id": goods_id
+                    num: num,
+                    goods_id: goods_id
                 },
-                dataType: "json",
                 success: function (data) {
                     if(data == "success"){
                         layer.msg('添加成功!',{icon:1,time:2000});
@@ -224,16 +245,17 @@
                     }
                 }
             });
-        }
+        };
         function addToGuess() {
             var goods_id = $("#goods_id").val();
             $.ajax({
                 type: "post",
                 url: "guess/addGuess",
-                data:{"goods_id": goods_id},
-                dataType: "json",
+                data:{goods_id: goods_id},
                 success: function (data) {
-                    if(data == "success"){
+                    console.log(data);
+                    if(data === "success"){
+                        console.log("success");
                         layer.msg('收藏成功！',{icon:1,time:2000});
                     }else {
                         layer.msg('收藏失败！',{icon:5,time:2000});
@@ -241,16 +263,15 @@
                     isGuess();
                 }
             });
-        }
+        };
         function removeGuess() {
             var goods_id = $("#goods_id").val();
             $.ajax({
                 type: "post",
                 url: "guess/removeGuess",
-                data: {"goods_id": goods_id},
-                dataType: "json",
+                data: {goods_id: goods_id},
                 success: function (data) {
-                    if(data == "success"){
+                    if(data === "success"){
                         layer.msg('取消收藏成功！',{icon:1,time:2000});
                     }else {
                         layer.msg('取消收藏失败！',{icon:5,time:2000});
@@ -258,14 +279,14 @@
                     isGuess();
                 }
             });
-        }
+        };
         function showHotGoods() {
             $.ajax({
                 type: "post",
                 url: "goods/findHotGoods",
                 dataType: "json",
                 success: function (data) {
-                    var div = "<h2>热卖推荐</h2><div class='span16' style='width: 1120px;'><ul>";
+                    var div = "<h2>热卖推荐</h2><div class='span16' style='width: 1120px;'><ul style='margin-left: 40px !important;'>";
                     for(var i = 0; i < data.length; i++){
                         div = div
                                 + "<a href='goods/detail?goodsId="+ data[i].goods_id +"'>"
@@ -281,8 +302,9 @@
                         $("#hotGoods").html(div);
                     }
                 }
-            })
+            });
         }
+
     </script>
 </body>
 </html>

@@ -29,21 +29,21 @@
     <!-- 导航栏部 -->
     <jsp:include page="include/header.jsp"/>
     <!-- 中间 -->
-    <div class="container">
-        <div class="row margin-t">
-            <div class="form-horizontal">
-                <div class="col-md-2 col-sm-2"></div>
-                <div class="form-group form-group-lg col-sm-6 col-md-6">
-                    <input type="text" class="form-control" id="newSearchKeyWord" placeholder="iPhone X">
-                </div>
-                <button class="btn btn-primary btn-lg col-md-2 col-sm-2 bg-button" onclick="search()">查找商品</button>
-            </div>
-        </div>
-    </div>
-    <div class="container">
+<%--    <div class="container">--%>
+<%--        <div class="row margin-t">--%>
+<%--            <div class="form-horizontal">--%>
+<%--                <div class="col-md-2 col-sm-2"></div>--%>
+<%--                <div class="form-group form-group-lg col-sm-6 col-md-6">--%>
+<%--                    <input type="text" class="form-control" id="newSearchKeyWord" placeholder="iPhone X">--%>
+<%--                </div>--%>
+<%--                <button type="button" class="btn btn-primary btn-lg col-md-2 col-sm-2 bg-button" onclick="search()">查找商品</button>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+    <div class="container" style="margin-top: 50px;">
         <div class="row">
             <div id="searchResult">
-                <div class="span" style="width: 1120px;">
+                <div class="span16" style="width: 1120px;">
                     <ul>
                         <c:forEach items="${searchList}" var="goods" varStatus="list">
                             <c:if test="${list.count%4!=0}">
@@ -52,7 +52,7 @@
                                         <img src="upload/${goods.goods_img}"/>
                                         <p class="goods-title">${goods.goods_name}</p>
                                         <p class="goods-desc">${goods.goods_desc}</p>
-                                        <p><span class="newprice">${goods.goods_price}</span></p>
+                                        <p><span class="newprice">${goods.goods_price}元</span></p>
                                     </li>
                                 </a>
                             </c:if>
@@ -62,7 +62,7 @@
                                         <img src="upload/${goods.goods_img}"/>
                                         <p class="goods-title">${goods.goods_name}</p>
                                         <p class="goods-desc">${goods.goods_desc}</p>
-                                        <p><span class="newprice">${goods.goods_price}</span></p>
+                                        <p><span class="newprice">${goods.goods_price}元</span></p>
                                     </li>
                                 </a>
                             </c:if>
@@ -80,8 +80,8 @@
            var keyword = $("#newSearchKeyWord").val();
            $.ajax({
               type: "post",
-              url: "goods/search",
-              data: {"keyword": keyword},
+              url: "goods/searchPre",
+              data: {"KeyWord": keyword},
               dataType: "json",
               success: function (data) {
                   var div = "<div class='span16' style='width: 1120px;'><ul>";

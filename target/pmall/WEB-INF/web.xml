@@ -14,6 +14,35 @@
         <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
 
+    <!-- 注册log4j配置文件 -->
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:log4j.properties</param-value>
+    </context-param>
+<!--    <listener>-->
+<!--        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>-->
+<!--    </listener>-->
+    <!-- 注册log4j2-->
+<!--    <context-param>-->
+<!--        <param-name>log4jConfiguration</param-name>-->
+<!--        <param-value>classpath:log4j2.xml</param-value>-->
+<!--    </context-param>-->
+<!--    <listener>-->
+<!--        <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>-->
+<!--    </listener>-->
+<!--    <filter>-->
+<!--        <filter-name>log4jServletFileter</filter-name>-->
+<!--        <filter-class>org.apache.logging.log4j.web.Log4jServletFilter</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>log4jServletFileter</filter-name>-->
+<!--        <url-pattern>/*</url-pattern>-->
+<!--        <dispatcher>REQUEST</dispatcher>-->
+<!--        <dispatcher>FORWARD</dispatcher>-->
+<!--        <dispatcher>INCLUDE</dispatcher>-->
+<!--        <dispatcher>ERROR</dispatcher>-->
+<!--    </filter-mapping>-->
+
     <!-- 注册serverContext监听器，创建Spring容器 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

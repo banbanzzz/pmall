@@ -58,14 +58,14 @@
                 </table>
                 <hr/>
                 <div class="row" style="text-align: center">
-                    <button class="layui-btn layui-btn-lg layui-btn-normal" onclick="javascript:window.location.href='view/index'">继续购买</button>
-                    <button class="layui-btn layui-btn-lg layui-btn-warm" onclick="payForOrder(${order.order_id})">立即支付</button>
+                    <button type="button" class="layui-btn layui-btn-lg layui-btn-normal" onclick="javascript:window.location.href='view/index'">继续购买</button>
+                    <button type="button" class="layui-btn layui-btn-lg layui-btn-warm" onclick="payForOrder('${order.order_id}');">立即支付</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- 尾部 -->
-    <jsp:include page="include/header.jsp"/>
+    <jsp:include page="include/foot.jsp"/>
 
     <script type="text/javascript">
         layui.use(['layer','form'],function () {
@@ -78,7 +78,6 @@
                    type: "post",
                    url: "order/payForOrder",
                    data: {"orderId": id},
-                   dataType: "json",
                    success: function (data) {
                        if(data == "success"){
                            layer.msg('支付成功！',{icon:1,time:2000},function () {

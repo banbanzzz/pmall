@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -40,7 +42,7 @@ public class CartController {
         }else {
             Goods goods = goodsService.findGoodsById(goods_id);
             Cart c = new Cart(goods,num,goods.getGoods_price(),user);
-            cartService.addGoodsToCart(cart);
+            cartService.addGoodsToCart(c);
         }
         return "success";
     }
@@ -91,18 +93,23 @@ public class CartController {
     }
 
     @RequestMapping("createOrder")
-    @ResponseBody
-    public String createOrder(Integer [] goodslist, Model model,HttpServletRequest request){
+    public String createOrder(Integer [] goodslist, HttpServletRequest request){
         List<Cart> cartList = new ArrayList<Cart>();
         for(Integer id : goodslist){
             Cart cart = cartService.findCartById(id);
             cartList.add(cart);
         }
-        model.addAttribute("cartList",cartList);
         HttpSession session = request.getSession();
         Users user = (Users)session.getAttribute("user");
         List<Address> addressList = addressService.findAddressByUserId(user.getUser_id());
-        model.addAttribute("addressList",addressList);
+        session.setAttribute("cartList",cartList);
+        session.setAttribute("addressList",addressList);
+        return "redirect:/cart/confirm_order";
+    }
+    @RequestMapping("/confirm_order")
+    public String confirm_order(HttpSession session,Model model){
+        model.addAttribute("cartList",session.getAttribute("cartList"));
+        model.addAttribute("addressList",session.getAttribute("addressList"));
         return "user/confirm_order";
     }
 }

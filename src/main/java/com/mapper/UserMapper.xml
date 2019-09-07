@@ -11,6 +11,7 @@
         <result property="user_img" column="user_img" javaType="java.lang.String"/>
     </resultMap>
 
+
     <select id="findUserById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select * from users where user_id = #{user_id}
     </select>

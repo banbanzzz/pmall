@@ -46,7 +46,7 @@
     </select>
 
     <select id="findCartListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinObj">
-        select * from cart where cart_user = #{user_id}
+        select cart.* from cart,goods where cart_user = #{user_id} and cart_goods = goods.goods_id and goods.goods_num > 0
     </select>
 
     <select id="findCartByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMapJoinObj">

@@ -13,8 +13,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>手机商城</title>
-    <link href="" rel="stylesheet" type="text/css">
-    <script src="" type="text/javascript"></script>
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+    <link href="resources/css/layui.css" rel="stylesheet">
+    <script src="resources/js/jquery.min.js" type="text/javascript"></script>
+    <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="resources/js/layui.js" type="text/javascript"></script>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -29,14 +33,14 @@
                         <c:if test="${fn:length(type.goodsList) != 0}">
                             <c:if test="${c.count == 1}">
                                 <li class="list-group-item-diy">
-                                    <a href="$product${type.type_id}">${type.type_name}
+                                    <a href="#productArea${type.type_id}">${type.type_name}
                                         <span class="sr-only">(current)</span>
                                     </a>
                                 </li>
                             </c:if>
                             <c:if test="${c.count != 1}">
                                 <li class="list-group-item-diy">
-                                    <a href="#product${type.type_id}">${type.type_name}</a>
+                                    <a href="#productArea${type.type_id}">${type.type_name}</a>
                                 </li>
                             </c:if>
                         </c:if>
@@ -75,7 +79,7 @@
 				</div> -->
                 <c:forEach items="${applicationScope.goodsTypeList}" var="type">
                     <c:if test="${fn:length(type.goodsList) != 0}">
-                        <div name=""product${type.type_id} class="row" id="product${type.type_id}"></div>
+                        <div name="productArea${type.type_id}" class="row" id="productArea${type.type_id}"></div>
                     </c:if>
                 </c:forEach>
             </div>
@@ -121,7 +125,7 @@
                     var div = "<div class='span16'><ul>";
                     for(var i = 0; i < data.length; i++){
                         if(i == 0){
-                            div = div + "<h2 class='title'>" + data[i].goodsType.type_name + "</h2>";
+                            div = div + "<h2 class='title'>" + data[i].goods_type.type_name + "</h2>";
                         }
                         //显示4列
                         if((i+1)%4 != 0){
@@ -137,7 +141,7 @@
                         }
                     }
                     var div = div + "</ul></div>";
-                    $("#product" + id).html(div);
+                    $("#productArea" + id).html(div);
                 }
             });
         }

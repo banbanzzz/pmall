@@ -10,10 +10,7 @@ import com.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +26,8 @@ public class UserController {
 
     @RequestMapping("login")
     @ResponseBody
-    public String login(String user_name, String user_pass, HttpServletRequest request){
-        Users user = userService.login(user_name,user_pass);
+    public String login(String user_name,String user_pass, HttpServletRequest request){
+        Users user = userService.login(user_name,MD5Util.passToMD5(user_pass));
         if(user != null){
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
@@ -40,7 +37,6 @@ public class UserController {
     }
 
     @RequestMapping("logout")
-    @ResponseBody
     public String logout(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute("user");
@@ -67,9 +63,9 @@ public class UserController {
         return "user/amend_info";
     }
 
-    @RequestMapping("upload")
+    @RequestMapping(value = "upload",method = {RequestMethod.POST})
     @ResponseBody
-    public JSONObject uploadHeadPic(@RequestParam(value = "file",required = false)MultipartFile file,HttpServletRequest request){
+    public JSONObject uploadHeadPic(@PathVariable(value="file")MultipartFile file,HttpServletRequest request){
         String str = file.getOriginalFilename();
         String name = UUIDUtil.getUUID() + str.substring(str.lastIndexOf("."));
         String path = request.getServletContext().getRealPath("/upload") + "/" + name;

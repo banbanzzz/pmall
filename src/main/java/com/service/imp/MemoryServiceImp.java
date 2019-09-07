@@ -17,6 +17,12 @@ public class MemoryServiceImp implements IMemoryService {
 
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     @Override
+    public Memory findMemoryById(Integer id) {
+        return memoryMapper.findMemoryById(id);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    @Override
     public List<Memory> findAllMemory() {
         return memoryMapper.findAllMemory();
     }

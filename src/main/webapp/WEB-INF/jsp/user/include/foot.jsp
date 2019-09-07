@@ -21,7 +21,7 @@
     <!-- 尾部 -->
     <hr/>
     <div class="foot-style">
-      	Copyright © 2019  版权所有|layui.com
+      	Copyright © 2019  版权所有 | 茹茹
         <br/>
         	手机商城
     </div>

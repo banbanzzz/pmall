@@ -26,8 +26,8 @@
 	</select>
 
     <insert id="addOrder" parameterType="com.entity.Order">
-		INSERT INTO `order` (`order_id`, `order_user`, `order_date`, `order_price`, `order_userName`, `order_phone`, `order_address`)
-		VALUES (#{order_id}, #{order_user.user_id}, #{order_date}, #{order_price}, #{order_userName}, #{order_phone}, #{order_address})
+		INSERT INTO `order` (`order_id`, `order_user`, `order_date`, `order_price`, `order_username`, `order_phone`, `order_address`)
+		VALUES (#{order_id}, #{order_user.user_id}, #{order_date}, #{order_price}, #{order_username}, #{order_phone}, #{order_address})
 	</insert>
 
     <update id="updateOrder" parameterType="com.entity.Order">
@@ -104,7 +104,7 @@
         select * from `order`
         <where>
             order_state &gt;= 0
-            <if test="orderIdKeyword!=null and orderIdKeyword!=''">
+            <if test="orderId!=null and orderId!=''">
                 and order_id like '%${orderId}%'
             </if>
             <if test="startDate!=null and startDate!=''">

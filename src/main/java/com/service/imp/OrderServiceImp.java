@@ -6,15 +6,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mapper.OrderDetailMapper;
 import com.mapper.OrderMapper;
+import com.mapper.OrderSearchVOMapper;
 import com.service.IOrderService;
 import com.util.OrderSearchVO;
 import com.util.OrderVO;
+import com.util.Time;
 import com.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,8 @@ public class OrderServiceImp implements IOrderService {
     private OrderMapper orderMapper;
     @Autowired
     private OrderDetailMapper detailMapper;
+    @Autowired
+    private OrderSearchVOMapper searchVOMapper;
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
@@ -31,6 +37,9 @@ public class OrderServiceImp implements IOrderService {
         order.setOrder_id(UUIDUtil.getUUID());
         Integer rs = orderMapper.addOrder(order);
         if(rs > 0){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            OrderSearchVO vo = new OrderSearchVO(order.getOrder_id(),format.format(order.getOrder_date()));
+            searchVOMapper.addOrderSerchVo(vo);
             List<OrderDetail> list = order.getDetailList();
             for(OrderDetail detail : list){
                 detail.setDetail_order(order);
@@ -43,25 +52,34 @@ public class OrderServiceImp implements IOrderService {
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Integer payForOrder(String order_id) {
-        return orderMapper.payOrder(order_id);
+        Integer rs = orderMapper.payOrder(order_id);
+        searchVOMapper.updateOrderSearchVo(2,order_id);
+        return rs;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Integer deliverOrder(String order_id, String expressNo) {
-        return orderMapper.deliverOrder(order_id, expressNo);
+        Integer rs = orderMapper.deliverOrder(order_id, expressNo);
+        searchVOMapper.updateOrderSearchVo(3,order_id);
+        return rs;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Integer receiveOrder(String order_id) {
-        return orderMapper.receiveOrder(order_id);
+        Integer rs = orderMapper.receiveOrder(order_id);
+        searchVOMapper.updateOrderSearchVo(4,order_id);
+        return rs;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Integer evaOrder(String order_id) {
-        return orderMapper.evaOrder(order_id);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Integer rs = orderMapper.evaOrder(order_id);
+        searchVOMapper.updateEndDate(format.format(Time.getDate()),5,order_id);
+        return rs;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)

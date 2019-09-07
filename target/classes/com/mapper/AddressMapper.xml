@@ -11,7 +11,7 @@
         <result property="addr_phone" column="addr_phone" javaType="java.lang.String"/>
         <result property="addr_user" column="addr_user" javaType="java.lang.Integer"/>
         <result property="addr_state" column="addr_state" javaType="java.lang.Integer"/>
-        <result property="addr_zipcpde" column="addr_zipcode" javaType="java.lang.String"/>
+        <result property="addr_zipcode" column="addr_zipcode" javaType="java.lang.String"/>
     </resultMap>
 
     <insert id="addAddress" parameterType="com.entity.Address">
@@ -60,6 +60,6 @@
     </select>
 
     <select id="findAddrByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select * from address where addr_user = #{user_id} and addr_state = 1
+        select * from address where addr_user = #{user_id} and addr_state &gt;= 0
     </select>
 </mapper>
