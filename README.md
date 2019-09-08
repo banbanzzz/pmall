@@ -39,3 +39,36 @@
 * MyBatis: 3.4.6
 * Redis: 3.2.100
 * Layui: 2.3
+### 数据库预览：
+![sql](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/sql.png)
+### 前台预览：
+![login](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/login.png)
+![register](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/register.png)
+![info](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/info.png)
+![index](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/index1.png)
+![index](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/index2.png)
+![detail](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/detail1.png)
+![detail](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/detail2.png)
+![cart](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/cart.png)
+![buy](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/buy.png)
+![order](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/order.png)
+![guess](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/guess.png)
+![order](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/order1.png)
+![order](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/order2.png)
+![order](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/order3.png)
+![address](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/address1.png)
+![address](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/address2.png)
+![safe](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/safe.png)
+### 后台预览：
+![hou1](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou1.png)
+![hou2](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou2.png)
+![hou3](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou3.png)
+![hou4](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou4.png)
+![hou5](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou5.png)
+![hou6](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou6.png)
+![hou7](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou7.png)
+![hou8](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou8.png)
+![hou9](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou9.png)
+![hou10](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/hou10.png)
+
+
