@@ -47,7 +47,7 @@
 ![info](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/info.png)
 ![index](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/index1.png)
 ![index](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/index2.png)
-![detail](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/detail1.png)
+![detail](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/detail1.PNG)
 ![detail](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/detail2.png)
 ![cart](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/cart.png)
 ![buy](https://github.com/banbanzzz/pmall/blob/master/src/main/webapp/resources/image/buy.png)
