@@ -21,9 +21,11 @@
     <!-- 尾部 -->
     <hr/>
     <div class="foot-style">
-      	Copyright © 2019  版权所有 | 茹茹
+        Copyright © 2019  版权所有 | Wxj
         <br/>
-        	手机商城
+            email：weng_xiujie@163.com
+        <br/>
+            手机商城
     </div>
 
 </body>

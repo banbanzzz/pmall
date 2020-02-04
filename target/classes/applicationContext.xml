@@ -23,10 +23,10 @@
 
 	<!-- 使用阿里巴巴的数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
-		<property name="url" value="jdbc:mysql://localhost:3306/pmall?serverTimezone=UTC"></property>
+		<property name="url" value="jdbc:mysql://39.107.14.86:3306/pmall?serverTimezone=UTC"></property>
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
-		<property name="username" value="root"></property>
-		<property name="password" value="root"></property>
+		<property name="username" value="admin"></property>
+		<property name="password" value="admin"></property>
 		<!-- 连接池参数 -->
 		<property name="maxActive" value="800"/>
 		<property name="minIdle" value="10"/>

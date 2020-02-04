@@ -169,8 +169,10 @@ div:hover {
 .logo {  
     padding:0;  
 }  
-#myCarousel {  
-    margin: 25px 0 0 0;  
+#myCarousel {
+	width: 1050px !important;
+	height: 300px !important;
+	margin-left: -15px !important;
 }  
 #navbar-collapse ul {  
     margin-top:0;  
@@ -254,9 +256,8 @@ div:hover {
 }
 .span16{
 	padding-top:35px;
-	width: 1060px;
+	width: 1050px;
     height: auto;
-    float: right;
 }
 .span16 li{
 	float: left;

@@ -24,7 +24,7 @@
     <!-- 导航栏 -->
     <jsp:include page="user/include/header.jsp"/>
     <!-- 中间 -->
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <!-- 控制栏 -->
             <div class="col-sm-3 col-md-2 sidebar sidebar-1">
@@ -48,7 +48,7 @@
                 </ul>
             </div>
             <!-- 控制内容 -->
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col md-offset-2 main">
+            <div class="col-sm-9 col-sm-offset-2 col-md-10 col-md-offset-2 main">
                 <!-- 轮播图 -->
                 <div class="layui-carousel" id="myCarousel">
                     <div carousel-item>
@@ -79,11 +79,11 @@
 				</div> -->
                 <c:forEach items="${applicationScope.goodsTypeList}" var="type">
                     <c:if test="${fn:length(type.goodsList) != 0}">
-                        <div name="productArea${type.type_id}" class="row" id="productArea${type.type_id}"></div>
+                        <div name="productArea${type.type_id}" class="row pd-10" id="productArea${type.type_id}"></div>
                     </c:if>
                 </c:forEach>
             </div>
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+            <div class="col-sm-9 col-sm-offset-2 col-md-10 col-md-offset-1">
                 <jsp:include page="user/include/foot.jsp"/>
             </div>
         </div>

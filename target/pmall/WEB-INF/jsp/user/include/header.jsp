@@ -21,7 +21,7 @@
 </head>
 <body>
 <!--导航栏部分-->
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed"
@@ -34,7 +34,7 @@
             <a class="navbar-brand" href="view/index">手机商城</a>
         </div>
 
-        <div class="collapse navbar-collapse"
+        <div class="navbar-collapse collapse"
              id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav navbar-right" style="padding-right:30px;">

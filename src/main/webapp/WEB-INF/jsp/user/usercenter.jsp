@@ -446,7 +446,7 @@
             url: "guess/findGuessByUser",
             dataType: "json",
             success: function (data) {
-                var div = "<div style='padding-left: 16px;' class='span16'><ul>";
+                var div = "<div class='span16'><ul>";
                 for (var i = 0; i < data.length; i++) {
                     if ((i + 1) % 4 != 0) {
                         div = div +

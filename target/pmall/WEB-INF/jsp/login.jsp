@@ -78,7 +78,7 @@
                                 href="javascript:;"><i
                                 class="layui-icon layui-icon-login-wechat"></i></a> <a
                                 href="javascript:;"><i
-                                class="layui-icon layui-icon-login-weibo"></i></a> <a href="/view/register"
+                                class="layui-icon layui-icon-login-weibo"></i></a> <a href="view/register"
                                 class="layadmin-user-jump-change layadmin-link">注册帐号</a>
                         </div>
                     </div>

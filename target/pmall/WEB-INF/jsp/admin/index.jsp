@@ -121,12 +121,12 @@
         
         <div class="layui-body">
             <!-- 内容主体 -->
-            <iframe src="view/main" name="myframe" style="width: 1140px;height: 550px;border: 0"></iframe>
+            <iframe src="view/main" name="myframe" style="width: 100%;height: 100%;border: 0"></iframe>
         </div>
 
         <div class="layui-footer">
             <!-- 底部固定 -->
-            © layui.com - ruru
+            © layui.com - Wxj
         </div>
     </div>
 
